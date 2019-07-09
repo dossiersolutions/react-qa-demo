@@ -7,7 +7,7 @@ class AddFormComponent extends AbstractComponent {
     render() {
         return (
             <React.Fragment>
-            <button type="button" className="btn btn-success">Craft new form</button>
+            <button type="button" className="btn btn-info">Craft new form</button>
             <br/>
             <br/>
             </React.Fragment>

@@ -1,6 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import AbstractComponent from './AbstractComponent'
+import FormActionsComponent from "./FormActionsComponent";
+import FieldGroupComponent from "./FieldGroupComponent";
 
 class FormComponent extends AbstractComponent {
 
@@ -9,25 +11,12 @@ class FormComponent extends AbstractComponent {
     // proveravamo global state... a ne props ?
     render() {
         return (
-            <div className={ this.props.global.byIds[this.props.formConfig.id].collapsed ? "collapse" : "bg-light p-1 border border-light" } >
+            <div className={ this.props.global.byIds[this.props.formConfig.id].collapsed ? "collapse" : "bg-light p-1 border border-light mb-5" } >
+            <FormActionsComponent/>
             <form>
-                <div className="form-group">
-                    <label htmlFor="exampleInputEmail1">Email address</label>
-                    <input type="email" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
-                           placeholder="Enter email"/>
-                        <small id="emailHelp" className="form-text text-muted">We'll never share your email with anyone
-                            else.
-                        </small>
-                </div>
-                <div className="form-group">
-                    <label htmlFor="exampleInputPassword1">Password</label>
-                    <input type="password" className="form-control" id="exampleInputPassword1" placeholder="Password"/>
-                </div>
-                <div className="form-check">
-                    <input type="checkbox" className="form-check-input" id="exampleCheck1"/>
-                        <label className="form-check-label" htmlFor="exampleCheck1">Check me out</label>
-                </div>
-                <button type="submit" className="btn btn-primary">Submit</button>
+                { this.props.global.byIds[this.props.formConfig.id].fieldsets.map(function(fieldGroupConfig) {
+                    return <FieldGroupComponent key={`fieldset-${fieldGroupConfig.id}`} fieldGroupConfig={ fieldGroupConfig }/>;
+                }) }
                 <div className="form-group">
                     <button type="button" className="btn btn-sm btn-success pull-right">
                         &#x231A; Save
