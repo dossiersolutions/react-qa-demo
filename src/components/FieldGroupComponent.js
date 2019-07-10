@@ -24,9 +24,21 @@ class FieldGroupComponent extends AbstractComponent {
             <div className="form-group m-1 p-1">
                 <div className="form-group bg-white border-bottom border-secondary m-1 p-3 text-lg-center">
                     { this.props.fieldGroupConfig.title }
-                    <button type="button" data-toggle="modal" data-target="#exampleModal" className="btn btn-sm btn-outline-danger pull-right" onClick={this.props.deleteFieldGroup.bind(this, this.props.fieldGroupConfig.formId, this.props.fieldGroupConfig.id)}>&times;</button>
-                    <button type="button" data-toggle="modal" data-target="#exampleModal" className="btn btn-sm btn-info pull-right" onClick={this.props.showNewFieldWindow.bind(this, this.props.fieldGroupConfig.formId, this.props.fieldGroupConfig.id)}>Add field</button>
-                    <button type="button" data-toggle="modal" data-target="#exampleModal" className="btn btn-sm btn-outline-info pull-right" onClick={this.props.showNewFieldWindow.bind(this, this.props.fieldGroupConfig.formId, this.props.fieldGroupConfig.id)}>Edit field</button>
+                    <button type="button" data-toggle="modal" data-target="#exampleModal" className="btn btn-sm btn-outline-danger pull-right"
+                            onClick={this.props.deleteFieldGroup.bind(this, this.props.fieldGroupConfig.formId, this.props.fieldGroupConfig.id)}
+                    >
+                        &times;
+                    </button>
+                    <button type="button" data-toggle="modal" data-target="#exampleModal" className="btn btn-sm btn-info pull-right"
+                            onClick={this.props.showNewFieldWindow.bind(this, this.props.fieldGroupConfig.formId, this.props.fieldGroupConfig.id)}
+                    >
+                        &#x002B;
+                    </button>
+                    <button type="button" data-toggle="modal" data-target="#exampleModal" className="btn btn-sm btn-outline-info pull-right"
+                            onClick={this.props.showNewFieldWindow.bind(this, this.props.fieldGroupConfig.formId, this.props.fieldGroupConfig.id)}
+                    >
+                        &#9998;
+                    </button>
                     { this.props.fieldGroupConfig.showNewFieldWindow ? <NewFieldWindowComponent formId={ this.props.fieldGroupConfig.formId } fieldGroupId={ this.props.fieldGroupConfig.id }/> : null }
                 </div>
                 <div className="form-group border border-secondary border-white">
