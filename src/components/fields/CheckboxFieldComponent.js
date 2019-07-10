@@ -1,8 +1,7 @@
 import React from 'react';
 import AbstractFieldComponent from "./AbstractFieldComponent";
-import FieldActionsComponent from "./FieldActionsComponent";
 
-export default class InputTextFieldComponent extends AbstractFieldComponent {
+export default class CheckboxFieldComponent extends AbstractFieldComponent {
 
     fieldConfig;
 

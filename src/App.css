@@ -6,3 +6,11 @@
 .pull-right {
   float: right!important;
 }
+
+.modal-backdrop.show {
+  opacity: 0.8;
+}
+
+button {
+  margin-left: 4px;
+}

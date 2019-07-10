@@ -8,24 +8,29 @@ class FormComponent extends AbstractComponent {
 
     formConfig;
 
-    // proveravamo global state... a ne props ?
     render() {
+        const formId = this.props.formConfig.id;
         return (
-            <div className={ this.props.global.byIds[this.props.formConfig.id].collapsed ? "collapse" : "bg-light p-1 border border-light mb-5" } >
-            <FormActionsComponent/>
+            <div className={ this.props.global.byIds[formId].collapsed ? "collapse" : "bg-light p-1 border border-light mb-5" } >
+            <FormActionsComponent formConfig={ this.props.formConfig }/>
             <form>
-                { this.props.global.byIds[this.props.formConfig.id].fieldsets.map(function(fieldGroupConfig) {
-                    return <FieldGroupComponent key={`fieldset-${fieldGroupConfig.id}`} fieldGroupConfig={ fieldGroupConfig }/>;
+                {
+                    Object.values(this.props.global.byIds[this.props.formConfig.id].fieldsets).map(function(fieldGroupConfig) {
+                        return <FieldGroupComponent key={`fieldset-${fieldGroupConfig.id}`}
+                                    fieldGroupConfig={{
+                                        ...fieldGroupConfig,
+                                        formId: formId
+                                }}/>;
                 }) }
                 <div className="form-group">
                     <button type="button" className="btn btn-sm btn-success pull-right">
-                        &#x231A; Save
+                        <span role="img" aria-label="save">&#x231A;</span> Save
                     </button>
                     <button type="button" className="btn btn-sm btn-light pull-right">
-                        &#x1F519; Cancel
+                        <span role="img" aria-label="cancel">&#x1F519;</span> Cancel
                     </button>
                     <button type="button" className="btn btn-sm btn-light pull-right">
-                        &#x231B; Preview
+                        <span role="img"aria-label="preview">&#x231B;</span> Preview
                     </button>
                     <br/>
                 </div>

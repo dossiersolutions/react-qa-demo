@@ -2,32 +2,23 @@ import React from 'react';
 import { connect } from 'react-redux';
 import AbstractComponent from './AbstractComponent'
 import FormComponent from "./FormComponent";
-import {TOGGLE_FORM_VISIBILITY} from "../redux/actionTypes";
+import {DELETE_FORM, TOGGLE_FORM_VISIBILITY} from "../redux/actionTypes";
 
 class FormListItemComponent extends AbstractComponent {
     formConfig;
 
-    handleEditClick(formConfig) {
-        this.props.toggleFormVisibility(formConfig.id);
-    }
-
-    handleDeleteClick(formConfig) {
-        console.log('Delete click', formConfig.id);
-
-    }
-
     render() {
         return (
             <React.Fragment>
-            <a className={"list-group-item list-group-item-action"}>
+            <div className={"list-group-item list-group-item-action"}>
                 <strong>{ this.props.formConfig.name }</strong>
-                <button type="button" className="btn btn-xs pull-right" onClick={this.handleDeleteClick.bind(this, this.props.formConfig)}>
-                    &#9940;
+                <button type="button" className="btn btn-xs pull-right" onClick={this.props.deleteForm.bind(this, this.props.formConfig.id) }>
+                    <span role="img" aria-label="delete">&#9940;</span>
                 </button>
-                <button type="button" className="btn btn-xs pull-right" onClick={this.handleEditClick.bind(this, this.props.formConfig)}>
-                    &#9935;
+                <button type="button" className="btn btn-xs pull-right" onClick={this.props.toggleFormVisibility.bind(this, this.props.formConfig.id) }>
+                    <span role="img" aria-label="edit">&#9935;</span>
                 </button>
-            </a>
+            </div>
                 <FormComponent formConfig={ this.props.formConfig }/>
             </React.Fragment>
         );
@@ -38,6 +29,11 @@ class FormListItemComponent extends AbstractComponent {
 const mapDispatchToProps = dispatch => ({
     toggleFormVisibility: (id) => dispatch({
         type: TOGGLE_FORM_VISIBILITY,
+        payload: { id }
+    }),
+
+    deleteForm: (id) => dispatch({
+        type: DELETE_FORM,
         payload: { id }
     })
 });

@@ -1,5 +1,4 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
 import FormListComponent from "./components/FormListComponent";
 import AddFormComponent from "./components/AddFormComponent";
