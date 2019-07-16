@@ -1,12 +1,5 @@
-export const ADD_TODO = "ADD_TODO";
-export const TOGGLE_TODO = "TOGGLE_TODO";
-export const SET_FILTER = "SET_FILTER";
-
 export const TOGGLE_FORM_VISIBILITY = "TOGGLE_FORM_VISIBILITY";
-
 export const ADD_NEW_FORM = "ADD_NEW_FORM";
-export const SHOW_NEW_FIELD_WINDOW = "SHOW_NEW_FIELD_WINDOW";
-export const HIDE_NEW_FIELD_WINDOW = "HIDE_NEW_FIELD_WINDOW";
 export const ADD_NEW_FIELD = "ADD_NEW_FIELD";
 export const DELETE_FIELD = "DELETE_FIELD";
 export const EDIT_FIELD = "EDIT_FIELD";

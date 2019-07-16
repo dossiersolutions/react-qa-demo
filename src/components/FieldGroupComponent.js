@@ -4,9 +4,10 @@ import InputTextFieldComponent from "./fields/InputTextFieldComponent";
 import FieldActionsComponent from "./fields/FieldActionsComponent";
 import CheckboxFieldComponent from "./fields/CheckboxFieldComponent";
 import SelectFieldComponent from "./fields/SelectFieldComponent";
-import NewFieldWindowComponent from "./fields/NewFieldWindowComponent";
-import {connect} from "react-redux";
-import {DELETE_FIELD_GROUP, HIDE_NEW_FIELD_WINDOW, SHOW_NEW_FIELD_WINDOW} from "../redux/actionTypes";
+import FieldConfigWindow from "./fields/FieldConfigWindow";
+import { connect } from "react-redux";
+import { ADD_NEW_FIELD, DELETE_FIELD_GROUP } from "../redux/actionTypes";
+import { Map } from "immutable";
 
 /**
  * Fields collection - grouped in fieldset
@@ -17,9 +18,18 @@ class FieldGroupComponent extends AbstractComponent {
 
     formId;
 
+    NEW_FIELD_CONFIG = Map({
+        label: '',
+        placeholder: '',
+        description: '',
+        type: 'string'
+    });
+
     render() {
         const formId = this.props.fieldGroupConfig.formId;
         const fieldGroupId = this.props.fieldGroupConfig.id;
+        console.log(this.NEW_FIELD_CONFIG);
+        console.log(this.NEW_FIELD_CONFIG.get('type'));
         return(
             <div className="form-group m-1 p-1">
                 <div className="form-group bg-white border-bottom border-secondary m-1 p-3 text-lg-center">
@@ -29,17 +39,23 @@ class FieldGroupComponent extends AbstractComponent {
                     >
                         &times;
                     </button>
-                    <button type="button" data-toggle="modal" data-target="#exampleModal" className="btn btn-sm btn-info pull-right"
-                            onClick={this.props.showNewFieldWindow.bind(this, this.props.fieldGroupConfig.formId, this.props.fieldGroupConfig.id)}
-                    >
-                        &#x002B;
-                    </button>
-                    <button type="button" data-toggle="modal" data-target="#exampleModal" className="btn btn-sm btn-outline-info pull-right"
-                            onClick={this.props.showNewFieldWindow.bind(this, this.props.fieldGroupConfig.formId, this.props.fieldGroupConfig.id)}
-                    >
-                        &#9998;
-                    </button>
-                    { this.props.fieldGroupConfig.showNewFieldWindow ? <NewFieldWindowComponent formId={ this.props.fieldGroupConfig.formId } fieldGroupId={ this.props.fieldGroupConfig.id }/> : null }
+                    <FieldConfigWindow
+                        toggleButton = { show =>
+                            <button
+                                type="button"
+                                onClick={ show }
+                                className="btn btn-sm btn-info pull-right"
+                            >&#x002B;</button> }
+                        formId = { this.props.fieldGroupConfig.formId }
+                        fieldGroupId = { this.props.fieldGroupConfig.id }
+                        fieldConfig = {{
+                            label: '',
+                            placeholder: '',
+                            description: '',
+                            type: 'string'
+                        }}
+                        saveHandler={ this.props.saveFieldConfig }
+                    />
                 </div>
                 <div className="form-group border border-secondary border-white">
                     {
@@ -89,11 +105,12 @@ class FieldGroupComponent extends AbstractComponent {
 }
 
 const mapDispatchToProps = dispatch => ({
-    showNewFieldWindow: (formId, fieldGroupId) => dispatch({
-        type: SHOW_NEW_FIELD_WINDOW,
+    saveFieldConfig: (formId, fieldGroupId, fieldConfig) => dispatch({
+        type: ADD_NEW_FIELD,
         payload: {
             formId: formId,
-            fieldGroupId: fieldGroupId
+            fieldGroupId: fieldGroupId,
+            fieldConfig: fieldConfig
         }
     }),
 

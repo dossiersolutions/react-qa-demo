@@ -18,6 +18,9 @@ class FormListItemComponent extends AbstractComponent {
                 <button type="button" className="btn btn-xs pull-right" onClick={this.props.toggleFormVisibility.bind(this, this.props.formConfig.id) }>
                     <span role="img" aria-label="edit">&#9935;</span>
                 </button>
+                <button type="button" data-toggle="modal" data-target="#exampleModal" className="btn btn-xs pull-right" onClick="#">
+                    <span role="img" aria-label="edit">&#9998;</span>
+                </button>
             </div>
                 <FormComponent formConfig={ this.props.formConfig }/>
             </React.Fragment>

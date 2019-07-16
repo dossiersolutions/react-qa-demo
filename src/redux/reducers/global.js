@@ -1,12 +1,10 @@
 import {
-    ADD_TODO, TOGGLE_TODO, TOGGLE_FORM_VISIBILITY,
-    SHOW_NEW_FIELD_WINDOW,
-    HIDE_NEW_FIELD_WINDOW,
+    TOGGLE_FORM_VISIBILITY,
     ADD_NEW_FIELD,
     DELETE_FIELD,
     ADD_NEW_FIELD_GROUP,
     DELETE_FIELD_GROUP,
-    ADD_NEW_FORM, DELETE_FORM
+    ADD_NEW_FORM, DELETE_FORM, EDIT_FIELD
 } from "../actionTypes";
 
 const initialState = {
@@ -242,33 +240,6 @@ const initialState = {
 
 export default function(state = initialState, action) {
     switch (action.type) {
-        case ADD_TODO: {
-            const { id, content } = action.payload;
-            return {
-                ...state,
-                allIds: [...state.allIds, id],
-                byIds: {
-                    ...state.byIds,
-                    [id]: {
-                        content,
-                        completed: false
-                    }
-                }
-            };
-        }
-        case TOGGLE_TODO: {
-            const { id } = action.payload;
-            return {
-                ...state,
-                byIds: {
-                    ...state.byIds,
-                    [id]: {
-                        ...state.byIds[id],
-                        completed: !state.byIds[id].completed
-                    }
-                }
-            };
-        }
         case TOGGLE_FORM_VISIBILITY: {
             const { id } = action.payload;
             return {
@@ -278,45 +249,6 @@ export default function(state = initialState, action) {
                     [action.payload.id]: {
                         ...state.byIds[id],
                         collapsed: !state.byIds[id].collapsed
-                    }
-                }
-            }
-        }
-        case SHOW_NEW_FIELD_WINDOW: {
-            const { formId, fieldGroupId } = action.payload;
-            return {
-                ...state,
-                byIds: {
-                    ...state.byIds,
-                    [formId]: {
-                        ...state.byIds[formId],
-                        fieldsets: {
-                            ...state.byIds[formId].fieldsets,
-                            [fieldGroupId]: {
-                                ...state.byIds[formId].fieldsets[fieldGroupId],
-                                showNewFieldWindow: true
-
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        case HIDE_NEW_FIELD_WINDOW: {
-            const { formId, fieldGroupId } = action.payload;
-            return {
-                ...state,
-                byIds: {
-                    ...state.byIds,
-                    [formId]: {
-                        ...state.byIds[formId],
-                        fieldsets: {
-                            ...state.byIds[formId].fieldsets,
-                            [fieldGroupId]: {
-                                ...state.byIds[formId].fieldsets[fieldGroupId],
-                                showNewFieldWindow: false
-                            }
-                        }
                     }
                 }
             }
@@ -336,6 +268,7 @@ export default function(state = initialState, action) {
                 }
             }
         case ADD_NEW_FIELD: {
+            console.log(state);
             const { formId, fieldGroupId, fieldConfig } = action.payload;
             const newFieldId = (state.byIds[formId].fieldsets[fieldGroupId].fields.length) + 1;
             return {
@@ -350,11 +283,28 @@ export default function(state = initialState, action) {
                                 ...state.byIds[formId].fieldsets[fieldGroupId],
                                 showNewFieldWindow: false,
                                 fields: [
-                                    ...state.byIds[formId].fieldsets[fieldGroupId].fields, {
-                                        ...fieldConfig, id: newFieldId
-                                    }
+                                    {...fieldConfig, id: newFieldId }, ...state.byIds[formId].fieldsets[fieldGroupId].fields
                                 ]
-
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        case EDIT_FIELD: {
+            const { formId, fieldGroupId, fieldConfig } = action.payload;
+            return {
+                ...state,
+                byIds: {
+                    ...state.byIds,
+                    [formId]: {
+                        ...state.byIds[formId],
+                        fieldsets: {
+                            ...state.byIds[formId].fieldsets,
+                            [fieldGroupId]: {
+                                ...state.byIds[formId].fieldsets[fieldGroupId],
+                                showNewFieldWindow: false,
+                                fields: state.byIds[formId].fieldsets[fieldGroupId].fields // TODO
                             }
                         }
                     }
@@ -379,7 +329,6 @@ export default function(state = initialState, action) {
             }
         }
         case DELETE_FIELD: {
-            console.log(state);
             const { formId, fieldGroupId, fieldId} = action.payload;
             return {
                 ...state,

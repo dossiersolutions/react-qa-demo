@@ -2,15 +2,25 @@ import React from 'react';
 import AbstractComponent from "../AbstractComponent";
 import {connect} from "react-redux";
 import {ADD_NEW_FORM, DELETE_FIELD, EDIT_FIELD} from "../../redux/actionTypes";
+import FieldConfigWindow from "./FieldConfigWindow";
 
 class FieldActionsComponent extends AbstractComponent {
 
     render() {
         return(
             <React.Fragment>
-                <button type="button" className="btn btn-sm btn-outline-info float-right col"
-                        onClick={ this.props.editField.bind(this, this.props.formId, this.props.fieldGroupId, this.props.fieldConfig.id) }
-                >&#9998;</button><br/>
+                <FieldConfigWindow
+                    toggleButton = { show =>
+                        <button
+                            type="button"
+                            onClick={ show }
+                            className="btn btn-sm btn-outline-info float-right col"
+                        >Edit</button> }
+                    formId = { this.props.formId }
+                    fieldGroupId = { this.props.fieldGroupId }
+                    fieldConfig = { this.props.fieldConfig }
+                    saveHandler={ this.props.editField }
+                />
                 <button type="button" className="btn btn-sm btn-outline-danger float-right col"
                     onClick={ this.props.deleteField.bind(this, this.props.formId, this.props.fieldGroupId, this.props.fieldConfig.id) }
                 >&times;</button>
@@ -35,12 +45,12 @@ const mapDispatchToProps = dispatch => ({
             fieldId: fieldId
         }
     }),
-    editField: (formId, fieldGroupId, fieldId) => dispatch({
+    editField: (formId, fieldGroupId, fieldConfig) => dispatch({
         type: EDIT_FIELD,
         payload: {
             formId: formId,
             fieldGroupId: fieldGroupId,
-            fieldId: fieldId
+            fieldConfig: fieldConfig
         }
     })
 });
