@@ -12,13 +12,13 @@ class FormListItemComponent extends AbstractComponent {
             <React.Fragment>
             <div className={"list-group-item list-group-item-action"}>
                 <strong>{ this.props.formConfig.name }</strong>
-                <button type="button" className="btn btn-xs pull-right" onClick={this.props.deleteForm.bind(this, this.props.formConfig.id) }>
+                <button type="button" className="btn btn-xs pull-right" onClick={ this.props.deleteForm.bind(this, this.props.formConfig.id) }>
                     <span role="img" aria-label="delete">&#9940;</span>
                 </button>
-                <button type="button" className="btn btn-xs pull-right" onClick={this.props.toggleFormVisibility.bind(this, this.props.formConfig.id) }>
+                <button type="button" className="btn btn-xs pull-right" onClick={ this.props.toggleFormVisibility.bind(this, this.props.formConfig.id) }>
                     <span role="img" aria-label="edit">&#9935;</span>
                 </button>
-                <button type="button" data-toggle="modal" data-target="#exampleModal" className="btn btn-xs pull-right" onClick="#">
+                <button type="button" data-toggle="modal" data-target="#exampleModal" className="btn btn-xs pull-right" onClick={ this.props.toggleFormVisibility.bind(this, this.props.formConfig.id) }>
                     <span role="img" aria-label="edit">&#9998;</span>
                 </button>
             </div>

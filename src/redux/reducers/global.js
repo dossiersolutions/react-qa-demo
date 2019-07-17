@@ -6,6 +6,7 @@ import {
     DELETE_FIELD_GROUP,
     ADD_NEW_FORM, DELETE_FORM, EDIT_FIELD
 } from "../actionTypes";
+import { Map } from "immutable";
 
 const initialState = {
     appTitle: 'My Dynamic form application',
@@ -18,7 +19,6 @@ const initialState = {
             title: 'My first fieldset',
             description: 'some description for this fieldset',
             showTitle: true,
-            showNewFieldWindow: false,
             fields: [{
                 'id': 1,
                 'type': 'string',
@@ -64,7 +64,6 @@ const initialState = {
             title: 'Introduction details',
             description: '',
             showTitle: false,
-            showNewFieldWindow: false,
             fields: [{
                 'id': 2,
                 'type': 'string',
@@ -81,7 +80,6 @@ const initialState = {
             title: 'Personal data',
             description: 'Personal employee data',
             showTitle: true,
-            showNewFieldWindow: false,
             fields: [{
                 'id': 1,
                 'type': 'string',
@@ -115,7 +113,6 @@ const initialState = {
                     title: 'Personal details',
                     description: 'some description for this fieldset',
                     showTitle: true,
-                    showNewFieldWindow: false,
                     fields: [{
                         id: 1,
                         type: 'string',
@@ -134,7 +131,6 @@ const initialState = {
                     id: 9,
                     title: 'Competence score',
                     showTitle: false,
-                    showNewFieldWindow: false,
                     fields: [{
                         id: 3,
                         type: 'select',
@@ -163,7 +159,6 @@ const initialState = {
                     id: 10,
                     title: 'Signature',
                     showTitle: true,
-                    showNewFieldWindow: false,
                     fields: [{
                         id: 3,
                         type: 'string',
@@ -192,7 +187,6 @@ const initialState = {
                     title: 'Introduction details',
                     description: '',
                     showTitle: false,
-                    showNewFieldWindow: false,
                     fields: [{
                         'id': 2,
                         'type': 'string',
@@ -212,7 +206,6 @@ const initialState = {
                     title: 'Personal data',
                     description: 'Personal employee data',
                     showTitle: true,
-                    showNewFieldWindow: false,
                     'fields': [{
                         'id': 1,
                         'type': 'string',
@@ -258,9 +251,9 @@ export default function(state = initialState, action) {
             return {
                 ...state,
                 forms: state.forms
-                    .filter(formConfig => formConfig.id != id),
+                    .filter(formConfig => formConfig.id !== id),
                 byIds: Object.keys(state.byIds)
-                        .filter(formId => formId != id)
+                        .filter(formId => formId !== id)
                         .reduce((obj, key) => {
                             obj[key] = state.byIds[key];
                             return obj;
@@ -268,9 +261,9 @@ export default function(state = initialState, action) {
                 }
             }
         case ADD_NEW_FIELD: {
-            console.log(state);
             const { formId, fieldGroupId, fieldConfig } = action.payload;
             const newFieldId = (state.byIds[formId].fieldsets[fieldGroupId].fields.length) + 1;
+            const newFieldConfig = Map.isMap(fieldConfig) ? fieldConfig.toJS() : fieldConfig;
             return {
                 ...state,
                 byIds: {
@@ -281,9 +274,8 @@ export default function(state = initialState, action) {
                             ...state.byIds[formId].fieldsets,
                             [fieldGroupId]: {
                                 ...state.byIds[formId].fieldsets[fieldGroupId],
-                                showNewFieldWindow: false,
                                 fields: [
-                                    {...fieldConfig, id: newFieldId }, ...state.byIds[formId].fieldsets[fieldGroupId].fields
+                                    {...newFieldConfig, id: newFieldId }, ...state.byIds[formId].fieldsets[fieldGroupId].fields
                                 ]
                             }
                         }
@@ -303,8 +295,11 @@ export default function(state = initialState, action) {
                             ...state.byIds[formId].fieldsets,
                             [fieldGroupId]: {
                                 ...state.byIds[formId].fieldsets[fieldGroupId],
-                                showNewFieldWindow: false,
-                                fields: state.byIds[formId].fieldsets[fieldGroupId].fields // TODO
+                                fields: state.byIds[formId].fieldsets[fieldGroupId].fields.map(field => {
+                                    return field.id === fieldConfig.get('id')
+                                        ? fieldConfig.toJS()
+                                        : field;
+                                })
                             }
                         }
                     }
@@ -341,7 +336,7 @@ export default function(state = initialState, action) {
                             [fieldGroupId]: {
                                 ...state.byIds[formId].fieldsets[fieldGroupId],
                                 fields: state.byIds[formId].fieldsets[fieldGroupId].fields
-                                    .filter(fieldConfig => fieldConfig.id != fieldId)
+                                    .filter(fieldConfig => fieldConfig.id !== fieldId)
                             }
                         }
                     }
@@ -358,7 +353,7 @@ export default function(state = initialState, action) {
                         ...state.byIds[formId],
                         fieldsets:
                             Object.keys(state.byIds[formId].fieldsets)
-                            .filter(key => key != fieldGroupId)
+                            .filter(key => parseInt(key) !== fieldGroupId)
                             .reduce((obj, key) => {
                                 obj[key] = state.byIds[formId].fieldsets[key];
                                 return obj;

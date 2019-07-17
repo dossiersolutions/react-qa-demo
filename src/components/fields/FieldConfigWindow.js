@@ -1,5 +1,8 @@
 import React from 'react';
 import Select from 'react-select';
+import { CONSTANTS } from "../../constants";
+import { Map } from "immutable";
+import useWindowWidth from "../../hooks/ResizeHook";
 
 
 /**
@@ -12,15 +15,20 @@ import Select from 'react-select';
  * @returns {*}
  * @constructor
  */
-const FieldConfigWindow = ({toggleButton, formId, fieldGroupId, fieldConfig, saveHandler}) => {
+const FieldConfigWindow = ({toggleButton, formId, fieldGroupId, fieldConfig, saveHandler }) => {
+
+    const width = useWindowWidth();
 
     const [isShown, setIsShown] = React.useState(false);
-    const [fieldType, setFieldType] = React.useState(fieldConfig.type);
-    const [fieldConfigState, setFieldConfigState] = React.useState(fieldConfig);
+    const [fieldType, setFieldType] = React.useState(
+        CONSTANTS.FIELD_TYPE_OPTIONS.find(function(typeOption) {
+            return typeOption.value === fieldConfig.get('type');
+        })
+    );
 
-    const hide = () => {
-        setIsShown(false);
-    };
+    const [fieldConfigState, setFieldConfigState] = React.useState(Map(fieldConfig));
+
+    const hide = () => setIsShown(false);
 
     const show = () => setIsShown(true);
 
@@ -30,11 +38,12 @@ const FieldConfigWindow = ({toggleButton, formId, fieldGroupId, fieldConfig, sav
     };
 
     const changeFieldType = (selectedType) => {
+        setFieldConfigState(Map({ ...fieldConfigState.toJS(), type: selectedType.value }));
         setFieldType(selectedType);
     };
 
     const handleInputChange = function(event) {
-        setFieldConfigState({ ...fieldConfigState, [event.target.id]: event.target.value } );
+        setFieldConfigState(Map({ ...fieldConfigState.toJS(), [event.target.id]: event.target.value } ));
     };
 
     const content = (hide) => (
@@ -54,19 +63,15 @@ const FieldConfigWindow = ({toggleButton, formId, fieldGroupId, fieldConfig, sav
                                 id="field-type"
                                 value={ fieldType }
                                 onChange={ changeFieldType }
-                                options={[
-                                    {label: "String", value: "string"},
-                                    {label: "Checkbox", value: "checkbox"},
-                                    {label: "Select", value: "select"}
-                                ]}/>
+                                options={ CONSTANTS.FIELD_TYPE_OPTIONS }/>
                             <div className="form-group">
                                 <input
                                     type="text"
                                     className="form-control"
                                     id="label"
                                     placeholder="Label"
-                                    onChange={handleInputChange }
-                                    value={ fieldConfigState.label }
+                                    onChange={ handleInputChange }
+                                    value={ fieldConfigState.get('label') }
                                 />
                             </div>
                             <div className="form-group">
@@ -74,7 +79,7 @@ const FieldConfigWindow = ({toggleButton, formId, fieldGroupId, fieldConfig, sav
                                     type="text" className="form-control"
                                     id="placeholder" placeholder="Placeholder"
                                     onChange={ handleInputChange }
-                                    value={ fieldConfigState.placeholder }
+                                    value={ fieldConfigState.get('placeholder') }
                                 />
                             </div>
                             <div className="form-group">
@@ -82,12 +87,16 @@ const FieldConfigWindow = ({toggleButton, formId, fieldGroupId, fieldConfig, sav
                                     type="text" className="form-control"
                                     id="description" placeholder="Description"
                                     onChange={ handleInputChange }
-                                    value= { fieldConfigState.description }
+                                    value= { fieldConfigState.get('description') }
                                 />
                             </div>
                         </div>
                         <div className="modal-footer">
-                            <button type="button" className="btn btn-secondary" onClick={ () => hide }>Close</button>
+                            { width > 800
+                                ?
+                                <button type="button" className="btn btn-secondary" onClick={ hide }>Close</button>
+                                : null
+                            }
                             <button type="button" className="btn btn-primary" onClick={ () => saveClickHandler(formId, fieldGroupId) }>Save</button>
                         </div>
                     </div>

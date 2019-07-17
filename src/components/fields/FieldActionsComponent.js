@@ -1,9 +1,11 @@
 import React from 'react';
 import AbstractComponent from "../AbstractComponent";
-import {connect} from "react-redux";
-import {ADD_NEW_FORM, DELETE_FIELD, EDIT_FIELD} from "../../redux/actionTypes";
+import { connect } from "react-redux";
+import { DELETE_FIELD, EDIT_FIELD } from "../../redux/actionTypes";
 import FieldConfigWindow from "./FieldConfigWindow";
+import { Map } from "immutable";
 
+// TODO to func component
 class FieldActionsComponent extends AbstractComponent {
 
     render() {
@@ -18,7 +20,7 @@ class FieldActionsComponent extends AbstractComponent {
                         >Edit</button> }
                     formId = { this.props.formId }
                     fieldGroupId = { this.props.fieldGroupId }
-                    fieldConfig = { this.props.fieldConfig }
+                    fieldConfig = { Map(this.props.fieldConfig) }
                     saveHandler={ this.props.editField }
                 />
                 <button type="button" className="btn btn-sm btn-outline-danger float-right col"

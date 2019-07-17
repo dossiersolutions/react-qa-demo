@@ -22,7 +22,6 @@ const mapDispatchToProps = dispatch => ({
             fieldGroupConfig: {
                 title: 'New field group added',
                 showTitle: true,
-                showNewFieldWindow: false,
                 fields: []
             }
         }

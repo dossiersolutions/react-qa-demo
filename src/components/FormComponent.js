@@ -30,7 +30,7 @@ class FormComponent extends AbstractComponent {
                         <span role="img" aria-label="cancel">&#x1F519;</span> Cancel
                     </button>
                     <button type="button" className="btn btn-sm btn-light pull-right">
-                        <span role="img"aria-label="preview">&#x231B;</span> Preview
+                        <span role="img" aria-label="preview">&#x231B;</span> Preview
                     </button>
                     <br/>
                 </div>
