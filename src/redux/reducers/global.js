@@ -4,7 +4,7 @@ import {
     DELETE_FIELD,
     ADD_NEW_FIELD_GROUP,
     DELETE_FIELD_GROUP,
-    ADD_NEW_FORM, DELETE_FORM, EDIT_FIELD
+    ADD_NEW_FORM, DELETE_FORM, EDIT_FIELD, GET_FORM_CONFIG_JSON
 } from "../actionTypes";
 import { Map } from "immutable";
 
@@ -379,6 +379,21 @@ export default function(state = initialState, action) {
                     [newFormId]: newFormConfig
                 }
             }
+        }
+        case GET_FORM_CONFIG_JSON: {
+            const { formId } = action.payload;
+                const formConfig = state.byIds[formId];
+                const fileName = "form_config_" + formId;
+                const json = JSON.stringify(formConfig);
+                const blob = new Blob([json],{ type:'application/json' });
+                const href = URL.createObjectURL(blob);
+                const link = document.createElement('a');
+                link.href = href;
+                link.download = fileName + ".json";
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            return state;
         }
         default:
             return state;

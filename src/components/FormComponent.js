@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import AbstractComponent from './AbstractComponent'
 import FormActionsComponent from "./FormActionsComponent";
 import FieldGroupComponent from "./FieldGroupComponent";
+import { GET_FORM_CONFIG_JSON } from "../redux/actionTypes";
 
 class FormComponent extends AbstractComponent {
 
@@ -24,13 +25,14 @@ class FormComponent extends AbstractComponent {
                 }) }
                 <div className="form-group">
                     <button type="button" className="btn btn-sm btn-success pull-right">
-                        <span role="img" aria-label="save">&#x231A;</span> Save
+                        <span role="img" aria-label="save">&#x231A;</span> Fill data
                     </button>
-                    <button type="button" className="btn btn-sm btn-light pull-right">
-                        <span role="img" aria-label="cancel">&#x1F519;</span> Cancel
-                    </button>
-                    <button type="button" className="btn btn-sm btn-light pull-right">
-                        <span role="img" aria-label="preview">&#x231B;</span> Preview
+                    <button
+                        type="button"
+                        className="btn btn-sm btn-light pull-right"
+                        onClick={ this.props.getFormConfigJson.bind(this, this.props.formConfig.id) }
+                    >
+                        <span role="img" aria-label="preview">&#x231B;</span> Get JSON
                     </button>
                     <br/>
                 </div>
@@ -41,9 +43,18 @@ class FormComponent extends AbstractComponent {
 
 }
 
+const mapDispatchToProps = dispatch => ({
+    getFormConfigJson: (formId) => dispatch({
+        type: GET_FORM_CONFIG_JSON,
+        payload: {
+            formId: formId,
+        }
+    })
+});
+
 function mapStateToProps(state) {
     return state;
 }
 
-export default connect(mapStateToProps)(FormComponent)
+export default connect(mapStateToProps, mapDispatchToProps)(FormComponent)
 
