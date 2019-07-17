@@ -383,7 +383,7 @@ export default function(state = initialState, action) {
         case GET_FORM_CONFIG_JSON: {
             const { formId } = action.payload;
                 const formConfig = state.byIds[formId];
-                const fileName = "form_config_" + formId;
+                const fileName = "form_config_" + formId + Math.floor(Date.now());
                 const json = JSON.stringify(formConfig);
                 const blob = new Blob([json],{ type:'application/json' });
                 const href = URL.createObjectURL(blob);
