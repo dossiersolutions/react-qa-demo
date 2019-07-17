@@ -5,7 +5,6 @@ import { DELETE_FIELD, EDIT_FIELD } from "../../redux/actionTypes";
 import FieldConfigWindow from "./FieldConfigWindow";
 import { Map } from "immutable";
 
-// TODO to func component
 class FieldActionsComponent extends AbstractComponent {
 
     render() {

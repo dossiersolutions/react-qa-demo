@@ -1,7 +1,7 @@
 import React from 'react';
-import InputTextFieldComponent from "./fields/InputTextFieldComponent";
-import CheckboxFieldComponent from "./fields/CheckboxFieldComponent";
-import SelectFieldComponent from "./fields/SelectFieldComponent";
+import InputTextFieldRenderer from "./fields/InputTextFieldRenderer";
+import CheckboxFieldRenderer from "./fields/CheckboxFieldRenderer";
+import SelectFieldRenderer from "./fields/SelectFieldRenderer";
 
 export default function FieldRendererFactory({ fieldConfig }) {
 
@@ -9,17 +9,17 @@ export default function FieldRendererFactory({ fieldConfig }) {
 
     switch (fieldConfig.type) {
         case 'string':
-            field = <InputTextFieldComponent
+            field = <InputTextFieldRenderer
                 key={`field-${fieldConfig.id}`}
                 fieldConfig={ fieldConfig }/>;
             break;
         case 'checkbox':
-            field = <CheckboxFieldComponent
+            field = <CheckboxFieldRenderer
                 key={`field-${fieldConfig.id}`}
                 fieldConfig={ fieldConfig }/>;
             break;
         case 'select':
-            field = <SelectFieldComponent
+            field = <SelectFieldRenderer
                 key={`field-${fieldConfig.id}`}
                 fieldConfig={ fieldConfig }/>;
             break;
