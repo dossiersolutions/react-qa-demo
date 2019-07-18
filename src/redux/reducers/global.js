@@ -5,231 +5,19 @@ import {
     ADD_NEW_FIELD_GROUP,
     DELETE_FIELD_GROUP,
     ADD_NEW_FORM, DELETE_FORM, EDIT_FIELD, GET_FORM_CONFIG_JSON
-} from "../actionTypes";
-import { Map } from "immutable";
+} from "../actions/types";
+import { initialState } from "../initialState";
 
-const initialState = {
-    appTitle: 'My Dynamic form application',
-    forms: [{
-        'id': 1,
-        name: 'Annual personal review form',
-        'collapsed': false,
-        fieldsets: [{
-            id: 8,
-            title: 'My first fieldset',
-            description: 'some description for this fieldset',
-            showTitle: true,
-            fields: [{
-                'id': 1,
-                'type': 'string',
-                'label': 'First name',
-                'description': 'Enter your first name here',
-                'placeholder': 'John'
-            }, {
-                'id': 2,
-                'type': 'string',
-                'label': 'Last name',
-                'value': 'Last name'
-            }, {
-                'id': 3,
-                'type': 'select',
-                'label': 'Option from the list',
-                'value': 1,
-                'options': [{
-                    'id': 1,
-                    'text': 'Option 1'
-                }, {
-                    'id': 2,
-                    'text': 'Option 2'
-                }, {
-                    'id': 3,
-                    'text': 'Option 3'
-                }]
-            }],
-        }] ,
-        'actions': [{
-            'submit': {
-                'id': 1,
-                'label': 'Save',
-                //'method': 'POST',
-                //'route': '/api/v1/qa/form_templates/add/' . {id}
-            }
-        }]
-    }, {
-        'id': 2,
-        'name': 'Senior doctor feedback',
-        'collapsed': true,
-        fieldsets: [{
-            id: 9,
-            title: 'Introduction details',
-            description: '',
-            showTitle: false,
-            fields: [{
-                'id': 2,
-                'type': 'string',
-                'label': 'Last name',
-                'value': 'Last name'
-            }]
-        }]
-    }, {
-        'id': 3,
-        'name': 'New employee questionnaire template',
-        'collapsed': true,
-        fieldsets: [{
-            id: 10,
-            title: 'Personal data',
-            description: 'Personal employee data',
-            showTitle: true,
-            fields: [{
-                'id': 1,
-                'type': 'string',
-                'label': 'First name',
-                'value': 'John'
-            }, {
-                'id': 2,
-                'type': 'string',
-                'label': 'Last name',
-                'value': 'Last name'
-            }]
-        }],
-        actions: [{
-            'submit': {
-                'id': 1,
-                'label': 'Save',
-                //'method': 'POST',
-                //'route': '/api/v1/qa/form_templates/add/' . {id}
-            }
-        }]
-    }],
-
-    byIds: {
-        1: {
-            id: 1,
-            name: 'Annual personal review form',
-            collapsed: false,
-            fieldsets: {
-                8: {
-                    id: 8,
-                    title: 'Personal details',
-                    description: 'some description for this fieldset',
-                    showTitle: true,
-                    fields: [{
-                        id: 1,
-                        type: 'string',
-                        label: 'First name',
-                        description: 'Enter your first name',
-                        placeholder: 'John'
-                    }, {
-                        id: 2,
-                        type: 'string',
-                        label: 'Last name',
-                        placeholder: 'Doe',
-                        description: 'What is your last name?'
-                    }]
-                },
-                9: {
-                    id: 9,
-                    title: 'Competence score',
-                    showTitle: false,
-                    fields: [{
-                        id: 3,
-                        type: 'select',
-                        label: 'Personal review 2019',
-                        description: 'Overall average score in Personal Review ',
-                        value: 1,
-                        options: [{
-                            'id': 1,
-                            'text': 'Option 1'
-                        }, {
-                            'id': 2,
-                            'text': 'Option 2'
-                        }, {
-                            'id': 3,
-                            'text': 'Option 3'
-                        }]
-                    }, {
-                        id: 4,
-                        type: 'checkbox',
-                        label: 'Has completed all tasks?',
-                        description: 'Whether employee has finished all assignments',
-                        value: 1
-                    }]
-                },
-                10: {
-                    id: 10,
-                    title: 'Signature',
-                    showTitle: true,
-                    fields: [{
-                        id: 3,
-                        type: 'string',
-                        label: 'Employee',
-                        description: '',
-                        value: 1
-                    }]
-                }
-            },
-            'actions': [{
-                'submit': {
-                    'id': 1,
-                    'label': 'Save',
-                    //'method': 'POST',
-                    //'route': '/api/v1/qa/form_templates/add/' . {id}
-                }
-            }]
-        },
-        2: {
-            'id': 2,
-            'name': 'Example qa form',
-            'collapsed': true,
-            fieldsets: {
-                11: {
-                    id: 11,
-                    title: 'Introduction details',
-                    description: '',
-                    showTitle: false,
-                    fields: [{
-                        'id': 2,
-                        'type': 'string',
-                        'label': 'Last name',
-                        'value': 'Last name'
-                    }]
-                }
-            },
-        },
-        3: {
-            'id': 3,
-            'name': 'New employee questionnaire template',
-            'collapsed': true,
-            fieldsets: {
-                12: {
-                    id: 12,
-                    title: 'Personal data',
-                    description: 'Personal employee data',
-                    showTitle: true,
-                    'fields': [{
-                        'id': 1,
-                        'type': 'string',
-                        'label': 'First name',
-                        'value': 'John' // TODO placeholder, not value
-                    }, {
-                        'id': 2,
-                        'type': 'string',
-                        'label': 'Last name',
-                        'value': 'Last name'
-                    }]
-                }
-            },
-            'actions': [{
-                'submit': {
-                    'id': 1,
-                    'label': 'Save',
-                    //'method': 'POST',
-                    //'route': '/api/v1/qa/form_templates/add/' . {id}
-                }
-            }]
-        },
-    }
-};
+/**
+ * Calculate next id value for array of objects with id property
+ * @param objArray
+ * @returns {number}
+ */
+function getNextId(objArray) {
+    return Math.max( ...objArray.map((obj) => {
+        return obj.id
+    })) + 1;
+}
 
 export default function(state = initialState, action) {
     switch (action.type) {
@@ -237,133 +25,123 @@ export default function(state = initialState, action) {
             const { id } = action.payload;
             return {
                 ...state,
-                byIds: {
-                    ...state.byIds,
-                    [action.payload.id]: {
-                        ...state.byIds[id],
-                        collapsed: !state.byIds[id].collapsed
+                byIds: state.byIds.map((formConfig) => {
+                    if (formConfig.id === id) {
+                        formConfig.collapsed = !formConfig.collapsed
                     }
-                }
+                    return formConfig;
+                })
             }
         }
         case DELETE_FORM: {
             const { id } = action.payload;
             return {
                 ...state,
-                forms: state.forms
-                    .filter(formConfig => formConfig.id !== id),
-                byIds: Object.keys(state.byIds)
-                        .filter(formId => formId !== id)
-                        .reduce((obj, key) => {
-                            obj[key] = state.byIds[key];
-                            return obj;
-                        }, {})
-                }
+                byIds: state.byIds
+                    .filter(formConfig => {
+                        return formConfig.id !== id;
+                    })
+
             }
+        }
         case ADD_NEW_FIELD: {
             const { formId, fieldGroupId, fieldConfig } = action.payload;
-            const newFieldId = (state.byIds[formId].fieldsets[fieldGroupId].fields.length) + 1;
-            const newFieldConfig = Map.isMap(fieldConfig) ? fieldConfig.toJS() : fieldConfig;
             return {
                 ...state,
-                byIds: {
-                    ...state.byIds,
-                    [formId]: {
-                        ...state.byIds[formId],
-                        fieldsets: {
-                            ...state.byIds[formId].fieldsets,
-                            [fieldGroupId]: {
-                                ...state.byIds[formId].fieldsets[fieldGroupId],
-                                fields: [
-                                    {...newFieldConfig, id: newFieldId }, ...state.byIds[formId].fieldsets[fieldGroupId].fields
+                byIds: state.byIds.map(formConfig => {
+                    if (formConfig.id === formId) {
+                        formConfig.fieldsets.map(fieldGroupConfig => {
+                            if (fieldGroupConfig.id === fieldGroupId) {
+                                const newFieldId = getNextId(fieldGroupConfig.fields);
+                                fieldGroupConfig.fields = [
+                                    { ...fieldConfig.toJS(), id: newFieldId }, ...fieldGroupConfig.fields
                                 ]
                             }
-                        }
+                            return fieldGroupConfig;
+                        })
                     }
-                }
+                    return formConfig;
+                })
             }
         }
         case EDIT_FIELD: {
             const { formId, fieldGroupId, fieldConfig } = action.payload;
             return {
                 ...state,
-                byIds: {
-                    ...state.byIds,
-                    [formId]: {
-                        ...state.byIds[formId],
-                        fieldsets: {
-                            ...state.byIds[formId].fieldsets,
-                            [fieldGroupId]: {
-                                ...state.byIds[formId].fieldsets[fieldGroupId],
-                                fields: state.byIds[formId].fieldsets[fieldGroupId].fields.map(field => {
-                                    return field.id === fieldConfig.get('id')
-                                        ? fieldConfig.toJS()
-                                        : field;
+                byIds: state.byIds.map(formConfig => {
+                    if (formConfig.id === formId) {
+                        formConfig.fieldsets = formConfig.fieldsets.map(fieldGroupConfig => {
+                            if (fieldGroupConfig.id === fieldGroupId) {
+                                fieldGroupConfig.fields = fieldGroupConfig.fields.map(oldFieldConfig => {
+                                    if (oldFieldConfig.id === fieldConfig.get('id')) {
+                                        oldFieldConfig = fieldConfig.toJS();
+                                        console.log(oldFieldConfig);
+                                    }
+                                    return oldFieldConfig;
                                 })
                             }
-                        }
+                            return fieldGroupConfig;
+                        })
                     }
-                }
-            }
+                    return formConfig;
+                })
+            };
         }
         case ADD_NEW_FIELD_GROUP: {
             const { formId, fieldGroupConfig } = action.payload;
-            const newFieldGroupId = Object.keys(state.byIds[formId].fieldsets).length + 1;
             return {
                 ...state,
-                byIds: {
-                    ...state.byIds,
-                    [formId]: {
-                        ...state.byIds[formId],
-                        fieldsets: {
-                            ...state.byIds[formId].fieldsets,
-                            [newFieldGroupId]: { ...fieldGroupConfig, id: newFieldGroupId }
+                byIds: state.byIds.map((formConfig) => {
+                        if (formConfig.id === formId) {
+                            const newFieldGroupId = getNextId(formConfig.fieldsets);
+                            formConfig.fieldsets = [
+                                {...fieldGroupConfig, id: newFieldGroupId},
+                                ...formConfig.fieldsets]
                         }
-                    }
-                }
+                        return formConfig;
+                    })
             }
         }
         case DELETE_FIELD: {
             const { formId, fieldGroupId, fieldId} = action.payload;
             return {
                 ...state,
-                byIds: {
-                    ...state.byIds,
-                    [formId]: {
-                        ...state.byIds[formId],
-                        fieldsets: {
-                            ...state.byIds[formId].fieldsets,
-                            [fieldGroupId]: {
-                                ...state.byIds[formId].fieldsets[fieldGroupId],
-                                fields: state.byIds[formId].fieldsets[fieldGroupId].fields
-                                    .filter(fieldConfig => fieldConfig.id !== fieldId)
-                            }
+                byIds: [
+                    ...state.byIds.map((formConfig) => {
+                        if (formConfig.id === formId) {
+                            formConfig.fieldsets = formConfig.fieldsets.map((fieldGroupConfig) =>  {
+                                if (fieldGroupConfig.id === fieldGroupId) {
+                                    fieldGroupConfig.fields
+                                        = fieldGroupConfig.fields.filter((fieldConfig) => {
+                                        return fieldConfig.id !== fieldId;
+                                    })
+                                }
+                                return fieldGroupConfig;
+                            })
                         }
-                    }
-                }
+                        return formConfig;
+                    })
+                ]
             }
         }
         case DELETE_FIELD_GROUP: {
             const { formId, fieldGroupId } = action.payload;
             return {
                 ...state,
-                byIds: {
-                    ...state.byIds,
-                    [formId]: {
-                        ...state.byIds[formId],
-                        fieldsets:
-                            Object.keys(state.byIds[formId].fieldsets)
-                            .filter(key => parseInt(key) !== fieldGroupId)
-                            .reduce((obj, key) => {
-                                obj[key] = state.byIds[formId].fieldsets[key];
-                                return obj;
-                            }, {})
+                byIds: [
+                    ...state.byIds.map((formConfig) => {
+                        if (formConfig.id === formId) {
+                            formConfig.fieldsets = formConfig.fieldsets.filter((fieldGroupConfig) => {
+                                return fieldGroupConfig.id !== fieldGroupId;
+                            })
                         }
-                    }
-                }
+                        return formConfig;
+                    })
+                ]
+            }
         }
         case ADD_NEW_FORM: {
-            const newFormId = Object.keys(state.byIds).length + 1;
+            const newFormId = getNextId(state.byIds);
             let newFormConfig = {
                 id: newFormId,
                 name: 'NEW FORM, JUST CREATED...',
@@ -371,13 +149,7 @@ export default function(state = initialState, action) {
                 fieldsets: []
             };
             return {
-                forms: [
-                    newFormConfig, ...state.forms
-                ],
-                byIds: {
-                    ...state.byIds,
-                    [newFormId]: newFormConfig
-                }
+                byIds: [ newFormConfig, ...state.byIds ]
             }
         }
         case GET_FORM_CONFIG_JSON: {

@@ -10,7 +10,6 @@ export default ({ fieldConfig }) => {
                 : null
             }
             <select className="form-control" id="sel1">
-                // TODO from state
                 <option>Not good</option>
                 <option>Average</option>
                 <option>Above average</option>

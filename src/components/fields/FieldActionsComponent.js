@@ -1,9 +1,9 @@
 import React from 'react';
 import AbstractComponent from "../AbstractComponent";
 import { connect } from "react-redux";
-import { DELETE_FIELD, EDIT_FIELD } from "../../redux/actionTypes";
 import FieldConfigWindow from "./FieldConfigWindow";
 import { Map } from "immutable";
+import { deleteField, editField } from "../../redux/actions/FieldActions";
 
 class FieldActionsComponent extends AbstractComponent {
 
@@ -31,29 +31,9 @@ class FieldActionsComponent extends AbstractComponent {
 
 }
 
-function mapStateToProps(state) {
-    return {
-        state
-    }
-}
-
 const mapDispatchToProps = dispatch => ({
-    deleteField: (formId, fieldGroupId, fieldId) => dispatch({
-        type: DELETE_FIELD,
-        payload: {
-            formId: formId,
-            fieldGroupId: fieldGroupId,
-            fieldId: fieldId
-        }
-    }),
-    editField: (formId, fieldGroupId, fieldConfig) => dispatch({
-        type: EDIT_FIELD,
-        payload: {
-            formId: formId,
-            fieldGroupId: fieldGroupId,
-            fieldConfig: fieldConfig
-        }
-    })
+    deleteField: (formId, fieldGroupId, fieldId) => dispatch(deleteField(formId, fieldGroupId, fieldId)),
+    editField: (formId, fieldGroupId, fieldConfig) => dispatch(editField(formId, fieldGroupId, fieldConfig))
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(FieldActionsComponent)
+export default connect(null, mapDispatchToProps)(FieldActionsComponent)

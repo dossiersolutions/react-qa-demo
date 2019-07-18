@@ -5,7 +5,7 @@ export default class AbstractComponent extends React.Component {
     render() {
         return (
             <div>
-                Abstract component html
+                Don't forget to override render method in your component.
             </div>
         );
     }

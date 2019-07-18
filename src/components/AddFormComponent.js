@@ -1,9 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import AbstractComponent from './AbstractComponent'
-import { ADD_NEW_FORM } from "../redux/actionTypes";
+import { addNewForm } from "../redux/actions/FormActions";
 
-class AddFormComponent extends AbstractComponent {
+class AddFormComponent extends React.Component {
 
     render() {
         return (
@@ -19,15 +18,8 @@ class AddFormComponent extends AbstractComponent {
 }
 
 const mapDispatchToProps = dispatch => ({
-    addNewForm: () => dispatch({
-        type: ADD_NEW_FORM,
-        payload: {}
-    })
+    addNewForm: () => dispatch(addNewForm())
 });
 
-function mapStateToProps(state) {
-    return { state } ;
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(AddFormComponent)
+export default connect(null, mapDispatchToProps)(AddFormComponent)
 

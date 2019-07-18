@@ -1,16 +1,27 @@
 import React from 'react';
 import './App.css';
-import FormListComponent from "./components/FormListComponent";
+import FormListRenderer from "./components/FormListRenderer";
 import AddFormComponent from "./components/AddFormComponent";
+import { connect } from "react-redux";
 
-function App() {
-  return (
-    <div className="container">
-        <h1>Form-craft</h1>
-        <AddFormComponent />
-        <FormListComponent/>
-    </div>
-  );
+class App extends React.Component {
+
+    render() {
+      return (
+          <div className="container">
+              <h1>Form-craft</h1>
+              <AddFormComponent />
+              <FormListRenderer forms={ this.props.forms }/>
+          </div>
+      );
+    }
+
 }
 
-export default App;
+function mapStateToProps(state) {
+    return {
+        forms: state.global.byIds
+    };
+}
+
+export default connect(mapStateToProps)(App);

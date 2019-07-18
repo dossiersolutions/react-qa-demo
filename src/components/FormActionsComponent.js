@@ -1,18 +1,20 @@
 import React from 'react';
 import AbstractComponent from "./AbstractComponent";
-import {connect} from "react-redux";
-import {ADD_NEW_FIELD_GROUP} from "../redux/actionTypes";
-import {Map} from "immutable";
+import { connect } from "react-redux";
+import { Map } from "immutable";
 import FillFormWindow from "./FillFormWindow";
+import { addNewFieldGroup } from "../redux/actions";
 
 class FormActionsComponent extends AbstractComponent {
 
     render() {
         return(<React.Fragment>
                 <div className="form-group pb-3 border-bottom border-dark m-1 clearfix bg-light">
-                    <button type="button" className="btn btn-sm btn-info pull-right" onClick={ this.props.addNewFieldGroup.bind(this, this.props.formConfig.id) }>Add fieldset</button>
-
-
+                    <button
+                        type="button" className="btn btn-sm btn-info pull-right"
+                        onClick={ this.props.addNewFieldGroup.bind(this, this.props.formConfig.id) }>
+                            Add fieldset
+                    </button>
                     <FillFormWindow
                         toggleButton = { show =>
                             <button
@@ -47,17 +49,7 @@ class FormActionsComponent extends AbstractComponent {
 }
 
 const mapDispatchToProps = dispatch => ({
-    addNewFieldGroup: (formId) => dispatch({
-        type: ADD_NEW_FIELD_GROUP,
-        payload: {
-            formId: formId,
-            fieldGroupConfig: {
-                title: 'New field group added',
-                showTitle: true,
-                fields: []
-            }
-        }
-    })
+    addNewFieldGroup: (formId) => dispatch(addNewFieldGroup(formId))
 });
 
-export default connect(state => state, mapDispatchToProps)(FormActionsComponent)
+export default connect(null, mapDispatchToProps)(FormActionsComponent)

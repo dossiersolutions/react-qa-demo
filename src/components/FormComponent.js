@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import AbstractComponent from './AbstractComponent'
 import FormActionsComponent from "./FormActionsComponent";
 import FieldGroupComponent from "./FieldGroupComponent";
-import { GET_FORM_CONFIG_JSON } from "../redux/actionTypes";
+import { GET_FORM_CONFIG_JSON } from "../redux/actions/types";
 
 class FormComponent extends AbstractComponent {
 
@@ -12,11 +12,11 @@ class FormComponent extends AbstractComponent {
     render() {
         const formId = this.props.formConfig.id;
         return (
-            <div className={ this.props.global.byIds[formId].collapsed ? "collapse" : "bg-light p-1 border border-light mb-5" } >
+            <div className={ this.props.formConfig.collapsed ? "collapse" : "bg-light p-1 border border-light mb-5" } >
             <FormActionsComponent formConfig={ this.props.formConfig } getFormConfigJson={ this.props.getFormConfigJson }/>
             <form>
                 {
-                    Object.values(this.props.global.byIds[this.props.formConfig.id].fieldsets).map(function(fieldGroupConfig) {
+                    Object.values(this.props.formConfig.fieldsets).map(function(fieldGroupConfig) {
                         return <FieldGroupComponent key={`fieldset-${fieldGroupConfig.id}`}
                                     fieldGroupConfig={{
                                         ...fieldGroupConfig,

@@ -2,10 +2,9 @@ import React from 'react';
 import { connect } from 'react-redux';
 import AbstractComponent from './AbstractComponent'
 import FormComponent from "./FormComponent";
-import {DELETE_FORM, TOGGLE_FORM_VISIBILITY} from "../redux/actionTypes";
+import { deleteForm, toggleFormVisibility } from "../redux/actions";
 
 class FormListItemComponent extends AbstractComponent {
-    formConfig;
 
     render() {
         return (
@@ -18,9 +17,6 @@ class FormListItemComponent extends AbstractComponent {
                 <button type="button" className="btn btn-xs pull-right" onClick={ this.props.toggleFormVisibility.bind(this, this.props.formConfig.id) }>
                     <span role="img" aria-label="edit">&#9935;</span>
                 </button>
-                <button type="button" data-toggle="modal" data-target="#exampleModal" className="btn btn-xs pull-right" onClick={ this.props.toggleFormVisibility.bind(this, this.props.formConfig.id) }>
-                    <span role="img" aria-label="edit">&#9998;</span>
-                </button>
             </div>
                 <FormComponent formConfig={ this.props.formConfig }/>
             </React.Fragment>
@@ -30,22 +26,10 @@ class FormListItemComponent extends AbstractComponent {
 }
 
 const mapDispatchToProps = dispatch => ({
-    toggleFormVisibility: (id) => dispatch({
-        type: TOGGLE_FORM_VISIBILITY,
-        payload: { id }
-    }),
+    toggleFormVisibility: (id) => dispatch(toggleFormVisibility(id)),
 
-    deleteForm: (id) => dispatch({
-        type: DELETE_FORM,
-        payload: { id }
-    })
+    deleteForm: (id) => dispatch(deleteForm(id))
 });
 
-function mapStateToProps(state) {
-    return {
-        state
-    };
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(FormListItemComponent)
+export default connect(null, mapDispatchToProps)(FormListItemComponent)
 
