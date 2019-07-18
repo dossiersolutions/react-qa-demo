@@ -1,10 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import AbstractComponent from './AbstractComponent'
 import FormComponent from "./FormComponent";
 import { deleteForm, toggleFormVisibility } from "../redux/actions";
 
-class FormListItemComponent extends AbstractComponent {
+class FormListItemComponent extends React.Component {
 
     render() {
         return (

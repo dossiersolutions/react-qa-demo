@@ -1,11 +1,10 @@
 import React from 'react';
-import AbstractComponent from "../AbstractComponent";
 import { connect } from "react-redux";
 import FieldConfigWindow from "./FieldConfigWindow";
 import { Map } from "immutable";
 import { deleteField, editField } from "../../redux/actions/FieldActions";
 
-class FieldActionsComponent extends AbstractComponent {
+class FieldActionsComponent extends React.Component {
 
     render() {
         return(

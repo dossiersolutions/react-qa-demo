@@ -1,11 +1,10 @@
 import React from 'react';
-import AbstractComponent from "./AbstractComponent";
 import { connect } from "react-redux";
 import { Map } from "immutable";
 import FillFormWindow from "./FillFormWindow";
 import { addNewFieldGroup } from "../redux/actions";
 
-class FormActionsComponent extends AbstractComponent {
+class FormActionsComponent extends React.Component {
 
     render() {
         return(<React.Fragment>

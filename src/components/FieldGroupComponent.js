@@ -1,5 +1,4 @@
 import React from 'react';
-import AbstractComponent from "./AbstractComponent";
 import { connect } from "react-redux";
 import FieldGroupRenderer from './FieldGroupRenderer';
 import { deleteFieldGroup } from "../redux/actions";
@@ -8,7 +7,7 @@ import { addNewField } from "../redux/actions/FieldActions";
 /**
  * Fields collection - grouped in fieldset
  */
-class FieldGroupComponent extends AbstractComponent {
+class FieldGroupComponent extends React.Component {
 
     fieldGroupConfig;
 

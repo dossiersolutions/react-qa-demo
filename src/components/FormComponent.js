@@ -1,13 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import AbstractComponent from './AbstractComponent'
 import FormActionsComponent from "./FormActionsComponent";
 import FieldGroupComponent from "./FieldGroupComponent";
 import { GET_FORM_CONFIG_JSON } from "../redux/actions/types";
 
-class FormComponent extends AbstractComponent {
-
-    formConfig;
+class FormComponent extends React.Component {
 
     render() {
         const formId = this.props.formConfig.id;
@@ -17,11 +14,12 @@ class FormComponent extends AbstractComponent {
             <form>
                 {
                     Object.values(this.props.formConfig.fieldsets).map(function(fieldGroupConfig) {
-                        return <FieldGroupComponent key={`fieldset-${fieldGroupConfig.id}`}
-                                    fieldGroupConfig={{
-                                        ...fieldGroupConfig,
-                                        formId: formId
-                                }}/>;
+                        return (
+                            <FieldGroupComponent
+                                key={`fieldset-${fieldGroupConfig.id}`}
+                                fieldGroupConfig={{ ...fieldGroupConfig, formId: formId }}
+                            />
+                        );
                 }) }
             </form>
             </div>
@@ -34,7 +32,7 @@ const mapDispatchToProps = dispatch => ({
     getFormConfigJson: (formId) => dispatch({
         type: GET_FORM_CONFIG_JSON,
         payload: {
-            formId: formId,
+            formId,
         }
     })
 });
