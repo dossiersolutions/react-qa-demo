@@ -13,6 +13,9 @@ const FieldGroupRenderer = ({ formId, fieldGroupId, fieldGroupConfig, saveFieldC
         <div className="form-group m-1 p-1">
             <div className="form-group bg-white border-bottom border-secondary m-1 p-3 text-lg-center">
                 { fieldGroupConfig.title }
+                <small className="font-italic text-secondary pl-4">
+                    { fieldGroupConfig.description }
+                </small>
                 <button type="button" data-toggle="modal" data-target="#exampleModal" className="btn btn-sm btn-outline-danger pull-right"
                         onClick={ deleteFieldGroup.bind(this, fieldGroupConfig.formId, fieldGroupConfig.id)}
                 >
@@ -28,7 +31,7 @@ const FieldGroupRenderer = ({ formId, fieldGroupId, fieldGroupConfig, saveFieldC
                     formId = { fieldGroupConfig.formId }
                     fieldGroupId = { fieldGroupConfig.id }
                     fieldConfig = { CONSTANTS.NEW_FIELD_CONFIG }
-                    saveHandler={ saveFieldConfig }
+                    saveHandler = { saveFieldConfig }
                 />
             </div>
             <div className="form-group border border-secondary border-white">

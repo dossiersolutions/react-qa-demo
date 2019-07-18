@@ -8,7 +8,7 @@ class AddFormComponent extends React.Component {
         return (
             <React.Fragment>
             <button type="button" className="btn btn-info"
-                    onClick={ this.props.addNewForm.bind(this) }>Craft new form</button>
+                    onClick={ this.props.addNewForm }>Craft new form</button>
             <br/>
             <br/>
             </React.Fragment>

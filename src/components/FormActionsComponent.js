@@ -35,13 +35,6 @@ class FormActionsComponent extends React.Component {
                     >
                         <span role="img" aria-label="preview">&#x231B;</span> JSON config
                     </button>
-                    <button
-                        type="button"
-                        className="btn btn-sm btn-light pull-right"
-                        onClick={ this.props.getFormConfigJson.bind(this, this.props.formConfig.id) }
-                    >
-                        <span role="img" aria-label="preview">&#x1F4BE;</span> JSON data
-                    </button>
                 </div>
         </React.Fragment>);
     }
