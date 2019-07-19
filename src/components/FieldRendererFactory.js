@@ -10,18 +10,30 @@ export default function FieldRendererFactory({ fieldConfig }) {
     switch (fieldConfig.type) {
         case 'string':
             field = <InputTextFieldRenderer
-                key={`field-${fieldConfig.id}`}
-                fieldConfig={ fieldConfig }/>;
+                key = {`field-${fieldConfig.id}`}
+                id = { fieldConfig.id }
+                label = { fieldConfig.label }
+                placeholder = { fieldConfig.placeholder }
+                description = { fieldConfig.description }
+            />;
             break;
         case 'checkbox':
             field = <CheckboxFieldRenderer
-                key={`field-${fieldConfig.id}`}
-                fieldConfig={ fieldConfig }/>;
+                key = {`field-${fieldConfig.id}`}
+                id = { fieldConfig.id }
+                label = { fieldConfig.label }
+                placeholder = { fieldConfig.placeholder }
+                description = { fieldConfig.description }
+            />;
             break;
         case 'select':
             field = <SelectFieldRenderer
-                key={`field-${fieldConfig.id}`}
-                fieldConfig={ fieldConfig }/>;
+                key = {`field-${fieldConfig.id}`}
+                id = { fieldConfig.id }
+                label = { fieldConfig.label }
+                placeholder = { fieldConfig.placeholder }
+                description = { fieldConfig.description }
+            />;
             break;
         default:
 

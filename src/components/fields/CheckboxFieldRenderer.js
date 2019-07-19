@@ -1,16 +1,26 @@
 import React from 'react';
 
-export default ({ fieldConfig }) => {
+export default ({ id, label, placeholder, description }) => {
 
     return (<React.Fragment>
-        <input type="checkbox" className="form-check-input" id="exampleInput1" placeholder={ fieldConfig.placeholder }/>
-        { fieldConfig.label
-            ? <label
-                htmlFor="exampleInput1">{ fieldConfig.label }</label>
+        <input
+            type="checkbox"
+            className="form-check-input"
+            id={`field-${id}`}
+            placeholder={ placeholder }
+        />
+        { label
+            ? <label htmlFor={`field-${id}`}>
+                { label }
+              </label>
             : null
         }
-        { fieldConfig.description
-            ? <small id="exampleInput1" className="font-italic text-secondary pl-4">{ fieldConfig.description }</small>
+        { description
+            ? <small
+                id={`field-description-${id}`}
+                className="font-italic text-secondary pl-4">
+                    { description }
+              </small>
             : null
         }
     </React.Fragment>);

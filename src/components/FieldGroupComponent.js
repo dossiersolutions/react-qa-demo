@@ -2,27 +2,41 @@ import React from 'react';
 import { connect } from "react-redux";
 import FieldGroupRenderer from './FieldGroupRenderer';
 import { deleteFieldGroup } from "../redux/actions";
-import { addNewField } from "../redux/actions/FieldActions";
+import { addNewField } from "../redux/actions/fieldActions";
+import PropTypes from 'prop-types';
 
 /**
  * Fields collection - grouped in fieldset
  */
 class FieldGroupComponent extends React.Component {
 
-    fieldGroupConfig;
-
-    formId;
-
     render() {
+        const {
+            fieldGroupConfig: {
+                formId,
+                id: fieldGroupId
+            },
+            fieldGroupConfig,
+            saveFieldConfig,
+            deleteFieldGroup
+        } = this.props;
         return(<FieldGroupRenderer
-            formId={ this.props.fieldGroupConfig.formId }
-            fieldGroupId={ this.props.fieldGroupConfig.id }
-            fieldGroupConfig={ this.props.fieldGroupConfig }
-            saveFieldConfig={ this.props.saveFieldConfig }
-            deleteFieldGroup={ this.props.deleteFieldGroup }
+            formId={ formId }
+            fieldGroupId={ fieldGroupId }
+            fieldGroupConfig={ fieldGroupConfig }
+            saveFieldConfig={ saveFieldConfig }
+            deleteFieldGroup={ deleteFieldGroup }
         />);
     }
 }
+
+FieldGroupComponent.propTypes = {
+    fieldGroupConfig: PropTypes.object,
+    formId: PropTypes.number,
+    fieldGroupId: PropTypes.number,
+    saveFieldConfig: PropTypes.func,
+    deleteFieldGroup: PropTypes.func
+};
 
 const mapDispatchToProps = dispatch => ({
     saveFieldConfig: (formId, fieldGroupId, fieldConfig) => dispatch(addNewField(formId, fieldGroupId, fieldConfig)),

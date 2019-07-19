@@ -14,9 +14,9 @@ import { initialState } from "../initialState";
  * @returns {number}
  */
 function getNextId(objArray) {
-    return Math.max( ...objArray.map((obj) => {
+    return (objArray.length ? Math.max( ...objArray.map((obj) => {
         return obj.id
-    })) + 1;
+    })) : 0) + 1;
 }
 
 export default function(state = initialState, action) {

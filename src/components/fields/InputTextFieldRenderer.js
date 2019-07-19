@@ -1,17 +1,26 @@
 import React from 'react';
 
-export default ({ fieldConfig }) => {
+export default ({ id, label, placeholder, description }) => {
 
     return (
         <React.Fragment>
-            { fieldConfig.label
+            { label
                 ? <label
-                    htmlFor="exampleInput1">{ fieldConfig.label }</label>
+                    htmlFor={`field-${id}`}>{ label }</label>
                 : null
             }
-            <input type="text" className="form-control" id="exampleInput1" placeholder={ fieldConfig.placeholder }/>
-            { fieldConfig.description
-                ? <small id="exampleInput1" className="font-italic text-secondary pl-4">{ fieldConfig.description }</small>
+            <input
+                type="text"
+                className="form-control"
+                id={`field-${id}`}
+                placeholder={ placeholder }
+            />
+            { description
+                ? <small
+                    id={`field-description-${id}`}
+                    className="font-italic text-secondary pl-4">
+                        { description }
+                    </small>
                 : null
             }
         </React.Fragment>

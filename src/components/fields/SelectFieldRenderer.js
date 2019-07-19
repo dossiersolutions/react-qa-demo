@@ -1,22 +1,33 @@
 import React from 'react';
+import Select from "react-select";
+import {CONSTANTS} from "../../constants";
 
-export default ({ fieldConfig }) => {
+export default ({ id, label, placeholder, description }) => {
+
+    const [optionValue, setOptionValue] = React.useState(
+        CONSTANTS.FIELD_TYPE_OPTIONS.first()
+    );
+
+    const changeOption = (selectedOption) => {
+        setOptionValue(selectedOption);
+    };
 
     return (
         <React.Fragment>
-            { fieldConfig.label
+            { label
                 ? <label
-                    htmlFor="exampleInput1">{ fieldConfig.label }</label>
+                    htmlFor="exampleInput1">{ label }</label>
                 : null
             }
-            <select className="form-control" id="sel1">
-                <option>Not good</option>
-                <option>Average</option>
-                <option>Above average</option>
-                <option>Excellent</option>
-            </select>
-            { fieldConfig.description
-                ? <small id="exampleInput1" className="font-italic text-secondary pl-4">{ fieldConfig.description }</small>
+            <Select
+                className="form-group"
+                id={`field-${id}`}
+                value={ optionValue }
+                onChange={ changeOption }
+                options={ CONSTANTS.FIELD_TYPE_OPTIONS }
+            />
+            { description
+                ? <small id="exampleInput1" className="font-italic text-secondary pl-4">{ description }</small>
                 : null
             }
         </React.Fragment>

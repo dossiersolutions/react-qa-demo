@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import FormActionsComponent from "./FormActionsComponent";
 import FieldGroupComponent from "./FieldGroupComponent";
+import PropTypes from "prop-types";
 
 class FormComponent extends React.Component {
 
@@ -24,26 +25,36 @@ class FormComponent extends React.Component {
     };
 
     render() {
-        const formId = this.props.formConfig.id;
+        const {
+            formConfig,
+            formConfig: {
+                id: formId
+            }
+        }= this.props;
         return (
-            <div className={ this.props.formConfig.collapsed ? "collapse" : "bg-light p-1 border border-light mb-5" } >
-            <FormActionsComponent formConfig={ this.props.formConfig } getFormConfigJson={ this.getFormConfigJson }/>
-            <form>
-                {
-                    Object.values(this.props.formConfig.fieldsets).map(function(fieldGroupConfig) {
-                        return (
-                            <FieldGroupComponent
-                                key={`fieldset-${fieldGroupConfig.id}`}
-                                fieldGroupConfig={{ ...fieldGroupConfig, formId: formId }}
-                            />
-                        );
-                }) }
-            </form>
+            <div key={`form-wrapper-${formId}`} className={ formConfig.collapsed ? "collapse" : "bg-light p-1 border border-light mb-5" } >
+                <FormActionsComponent formConfig={ formConfig } getFormConfigJson={ this.getFormConfigJson }/>
+                <form key={`form-${formId}`}>
+                    {
+                        Object.values(formConfig.fieldsets).map(function(fieldGroupConfig) {
+                            return (
+                                <FieldGroupComponent
+                                    key={`form-${formId}-fieldset-${fieldGroupConfig.id}`}
+                                    fieldGroupConfig={{ ...fieldGroupConfig, formId: formId }}
+                                />
+                            );
+                    }) }
+                </form>
             </div>
         );
     }
 
 }
+
+FormComponent.propTypes = {
+    formConfig: PropTypes.object,
+    formId: PropTypes.number
+};
 
 export default connect(state => state)(FormComponent)
 

@@ -2,11 +2,19 @@ import React from 'react';
 import { connect } from "react-redux";
 import FieldConfigWindow from "./FieldConfigWindow";
 import { Map } from "immutable";
-import { deleteField, editField } from "../../redux/actions/FieldActions";
+import { deleteField, editField } from "../../redux/actions/fieldActions";
+import PropTypes from "prop-types";
 
 class FieldActionsComponent extends React.Component {
 
     render() {
+        const {
+            formId,
+            fieldGroupId,
+            fieldConfig,
+            editField,
+            deleteField
+        } = this.props;
         return(
             <React.Fragment>
                 <FieldConfigWindow
@@ -15,19 +23,30 @@ class FieldActionsComponent extends React.Component {
                             type="button"
                             onClick={ show }
                             className="btn btn-sm btn-outline-info float-right col"
-                        >Edit</button> }
-                    formId = { this.props.formId }
-                    fieldGroupId = { this.props.fieldGroupId }
-                    fieldConfig = { Map(this.props.fieldConfig) }
-                    saveHandler={ this.props.editField }
+                        >
+                            <span role="img" aria-label="view">&#x270E;</span>
+                        </button> }
+                    formId = { formId }
+                    fieldGroupId = { fieldGroupId }
+                    fieldConfig = { Map(fieldConfig) }
+                    saveHandler={ editField }
                 />
                 <button type="button" className="btn btn-sm btn-outline-danger float-right col"
-                    onClick={ this.props.deleteField.bind(this, this.props.formId, this.props.fieldGroupId, this.props.fieldConfig.id) }
-                >&times;</button>
+                    onClick={ deleteField.bind(this, formId, fieldGroupId, fieldConfig.id) }
+                >
+                    <span role="img" aria-label="delete">&times;</span></button>
             </React.Fragment>
         );
     }
 
+}
+
+FieldActionsComponent.propTypes = {
+    formId: PropTypes.number,
+    fieldGroupId: PropTypes.number,
+    fieldConfig: PropTypes.object,
+    editField: PropTypes.func,
+    deleteField: PropTypes.func
 }
 
 const mapDispatchToProps = dispatch => ({
