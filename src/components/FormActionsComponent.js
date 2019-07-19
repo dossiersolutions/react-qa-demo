@@ -21,7 +21,7 @@ class FormActionsComponent extends React.Component {
                         type="button" className="btn btn-sm btn-info pull-right"
                         onClick={ addNewFieldGroup.bind(this, formId) }
                     >
-                        <span role="img" aria-label="add-fieldset">&#x2795;</span> Add fieldset
+                        <span role="img" aria-label="add-fieldset">&#x2795;</span> Add field group
                     </button>
                     <FillFormWindow
                         toggleButton = { show =>

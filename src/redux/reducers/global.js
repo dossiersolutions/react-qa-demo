@@ -20,6 +20,20 @@ function getNextId(objArray) {
     })) : 0) + 1;
 }
 
+function getFormIndex(im_state, formId) {
+    return im_state.get('byIds').findIndex(function(formConfig) {
+        return formConfig.get('id') === formId;
+    });
+}
+
+function getFieldsetIndex(im_state, formId, fieldGroupId) {
+    let im_form = im_state.get('byIds').get(getFormIndex(im_state, formId));
+    let im_fieldsets = im_form.get('fieldsets');
+    return im_fieldsets.findIndex(fieldGroupConfig => {
+        return fieldGroupConfig.get('id') === fieldGroupId;
+    });
+}
+
 export default function(state = initialState, action) {
     switch (action.type) {
         case TOGGLE_FORM_VISIBILITY: {
@@ -48,21 +62,12 @@ export default function(state = initialState, action) {
         case ADD_NEW_FIELD: {
             const { formId, fieldGroupId, fieldConfig } = action.payload;
             let im_state = fromJS(state);
-            let im_forms = im_state.get('byIds');
-            let idx_form = im_state.get('byIds').findIndex(function(formConfig) {
-                return formConfig.get('id') === formId;
-            });
-            let im_form = im_forms.get(idx_form);
-            let im_fieldsets = im_form.get('fieldsets');
-            let idx_fieldset = im_fieldsets.findIndex(fieldGroupConfig => {
-                return fieldGroupConfig.get('id') === fieldGroupId;
-            });
-            let im_fields = im_fieldsets.get(idx_fieldset).get('fields');
-            const newFieldId = getNextId(im_fields.toJS());
-            const im_new_field = Map({
-                ...fieldConfig.toJS(),
-                id: newFieldId
-            });
+            let idx_form = getFormIndex(im_state, formId);
+            let idx_fieldset = getFieldsetIndex(im_state, formId, fieldGroupId);
+            let newFieldId = getNextId(
+                im_state.getIn(['byIds', idx_form, 'fieldsets', idx_fieldset, 'fields']).toJS()
+            );
+            let im_new_field = Map({ ...fieldConfig.toJS(), id: newFieldId });
             return fromJS(state)
                 .updateIn(
                     ['byIds', idx_form, 'fieldsets', idx_fieldset, 'fields'],
@@ -71,44 +76,33 @@ export default function(state = initialState, action) {
         }
         case EDIT_FIELD: {
             const { formId, fieldGroupId, fieldConfig } = action.payload;
-            return {
-                ...state,
-                byIds: state.byIds.map(formConfig => {
-                    if (formConfig.id === formId) {
-                        formConfig.fieldsets = formConfig.fieldsets.map(fieldGroupConfig => {
-                            if (fieldGroupConfig.id === fieldGroupId) {
-                                fieldGroupConfig.fields = fieldGroupConfig.fields.map(oldFieldConfig => {
-                                    if (oldFieldConfig.id === fieldConfig.get('id')) {
-                                        oldFieldConfig = fieldConfig.toJS();
-                                        console.log(oldFieldConfig);
-                                    }
-                                    return oldFieldConfig;
-                                })
-                            }
-                            return fieldGroupConfig;
-                        })
-                    }
-                    return formConfig;
-                })
-            };
+            let im_state = fromJS(state);
+            let idx_form = getFormIndex(im_state, formId);
+            let idx_fieldset = getFieldsetIndex(im_state, formId, fieldGroupId);
+            let idx_field = im_state.getIn(['byIds', idx_form, 'fieldsets', idx_fieldset, 'fields'])
+                .findIndex(config => fieldConfig.get('id') === config.get('id'));
+            return fromJS(state)
+                .setIn(
+                    ['byIds', idx_form, 'fieldsets', idx_fieldset, 'fields', idx_field],
+                    fieldConfig
+                ).toJS();
         }
         case ADD_NEW_FIELD_GROUP: {
             const { formId, fieldGroupConfig } = action.payload;
-            return {
-                ...state,
-                byIds: state.byIds.map((formConfig) => {
-                        if (formConfig.id === formId) {
-                            const newFieldGroupId = getNextId(formConfig.fieldsets);
-                            formConfig.fieldsets = [
-                                {...fieldGroupConfig, id: newFieldGroupId},
-                                ...formConfig.fieldsets]
-                        }
-                        return formConfig;
-                    })
-            }
+            let im_state = fromJS(state);
+            let idx_form = getFormIndex(im_state, formId);
+            let newFieldGroupId = getNextId(im_state.getIn(['byIds', idx_form, 'fieldsets']).toJS());
+            return im_state.updateIn(
+                ['byIds', idx_form, 'fieldsets'],
+                    list => list.push(Map({
+                        ...fieldGroupConfig,
+                        title: fieldGroupConfig.title + ' ' + newFieldGroupId,
+                        id: newFieldGroupId
+                    }))).toJS();
         }
         case DELETE_FIELD: {
             const { formId, fieldGroupId, fieldId} = action.payload;
+
             return {
                 ...state,
                 byIds: [
@@ -131,31 +125,22 @@ export default function(state = initialState, action) {
         }
         case DELETE_FIELD_GROUP: {
             const { formId, fieldGroupId } = action.payload;
-            return {
-                ...state,
-                byIds: [
-                    ...state.byIds.map((formConfig) => {
-                        if (formConfig.id === formId) {
-                            formConfig.fieldsets = formConfig.fieldsets.filter((fieldGroupConfig) => {
-                                return fieldGroupConfig.id !== fieldGroupId;
-                            })
-                        }
-                        return formConfig;
-                    })
-                ]
-            }
+            let im_state = fromJS(state);
+            let idx_form = getFormIndex(im_state, formId);
+            return im_state.updateIn(['byIds', idx_form, 'fieldsets'],
+                    list => list.filter(config => config.get('id') !== fieldGroupId)
+            ).toJS();
         }
         case ADD_NEW_FORM: {
+            let im_state = fromJS(state);
             const newFormId = getNextId(state.byIds);
-            let newFormConfig = {
+            let newFormConfig = Map({
                 id: newFormId,
-                name: 'NEW FORM, JUST CREATED...',
+                name: 'Form ' + newFormId,
                 collapsed: true,
                 fieldsets: []
-            };
-            return {
-                byIds: [ newFormConfig, ...state.byIds ]
-            }
+            });
+            return im_state.update('byIds', list => list.push(newFormConfig)).toJS()
         }
         default:
             return state;

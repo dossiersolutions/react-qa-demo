@@ -20,7 +20,7 @@ export const addNewFieldGroup = (formId) => ({
     payload: {
         formId: formId,
         fieldGroupConfig: {
-            title: 'New field group',
+            title: 'Field group',
             showTitle: true,
             fields: []
         }
