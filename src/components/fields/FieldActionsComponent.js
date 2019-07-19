@@ -24,7 +24,7 @@ class FieldActionsComponent extends React.Component {
                             onClick={ show }
                             className="btn btn-sm btn-outline-info float-right col"
                         >
-                            <span role="img" aria-label="view">&#x270E;</span>
+                            <span role="img" aria-label="edit">&#x270E;</span>
                         </button> }
                     formId = { formId }
                     fieldGroupId = { fieldGroupId }
@@ -47,7 +47,7 @@ FieldActionsComponent.propTypes = {
     fieldConfig: PropTypes.object,
     editField: PropTypes.func,
     deleteField: PropTypes.func
-}
+};
 
 const mapDispatchToProps = dispatch => ({
     deleteField: (formId, fieldGroupId, fieldId) => dispatch(deleteField(formId, fieldGroupId, fieldId)),

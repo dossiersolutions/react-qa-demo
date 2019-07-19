@@ -1,6 +1,6 @@
 import React from 'react';
 
-const FillFormWindow = ({toggleButton, formId, fieldGroupId, fieldConfig, saveHandler }) => {
+const FillFormWindow = ({toggleButton }) => {
 
     const [isShown, setIsShown] = React.useState(false);
 

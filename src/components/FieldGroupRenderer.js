@@ -43,13 +43,13 @@ const FieldGroupRenderer = ({ formId, fieldGroupId, fieldGroupConfig, saveFieldC
                     fieldGroupConfig.fields.map(function(fieldConfig) {
                         return (<div className="row border-bottom border-white p-2" key={`field-wrapper-${fieldGroupConfig.id}-${fieldConfig.id}`}>
                             <div className="col-11 align-top" key={`field-component-wrapper-${fieldConfig.id}`}>
-                                <FieldRendererFactory fieldConfig={ fieldConfig }/>
+                                <FieldRendererFactory fieldConfig={fieldConfig}/>
                             </div>
                             {width > 950
                                 ? <div className="col-1 align-top"
-                                       key={`field-actions-wrapper-${fieldConfig.id}`}>
-                                    <FieldActionsComponent formId={formId} fieldGroupId={fieldGroupId}
-                                                           fieldConfig={fieldConfig}/>
+                                key={`field-actions-wrapper-${fieldConfig.id}`}>
+                                <FieldActionsComponent formId={formId} fieldGroupId={fieldGroupId}
+                                fieldConfig={fieldConfig}/>
                                 </div>
                                 : null
                             }

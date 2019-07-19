@@ -36,7 +36,7 @@ export default function FieldRendererFactory({ fieldConfig }) {
             />;
             break;
         default:
-
+            throw new Error("Invalid form field config")
     }
 
     return (<React.Fragment>{ field }</React.Fragment>);

@@ -7,6 +7,7 @@ import {
     ADD_NEW_FORM, DELETE_FORM, EDIT_FIELD
 } from "../actions/types";
 import { initialState } from "../initialState";
+import {fromJS, Map} from "immutable";
 
 /**
  * Calculate next id value for array of objects with id property
@@ -46,23 +47,27 @@ export default function(state = initialState, action) {
         }
         case ADD_NEW_FIELD: {
             const { formId, fieldGroupId, fieldConfig } = action.payload;
-            return {
-                ...state,
-                byIds: state.byIds.map(formConfig => {
-                    if (formConfig.id === formId) {
-                        formConfig.fieldsets.map(fieldGroupConfig => {
-                            if (fieldGroupConfig.id === fieldGroupId) {
-                                const newFieldId = getNextId(fieldGroupConfig.fields);
-                                fieldGroupConfig.fields = [
-                                    { ...fieldConfig.toJS(), id: newFieldId }, ...fieldGroupConfig.fields
-                                ]
-                            }
-                            return fieldGroupConfig;
-                        })
-                    }
-                    return formConfig;
-                })
-            }
+            let im_state = fromJS(state);
+            let im_forms = im_state.get('byIds');
+            let idx_form = im_state.get('byIds').findIndex(function(formConfig) {
+                return formConfig.get('id') === formId;
+            });
+            let im_form = im_forms.get(idx_form);
+            let im_fieldsets = im_form.get('fieldsets');
+            let idx_fieldset = im_fieldsets.findIndex(fieldGroupConfig => {
+                return fieldGroupConfig.get('id') === fieldGroupId;
+            });
+            let im_fields = im_fieldsets.get(idx_fieldset).get('fields');
+            const newFieldId = getNextId(im_fields.toJS());
+            const im_new_field = Map({
+                ...fieldConfig.toJS(),
+                id: newFieldId
+            });
+            return fromJS(state)
+                .updateIn(
+                    ['byIds', idx_form, 'fieldsets', idx_fieldset, 'fields'],
+                    list => list.push(im_new_field)
+                ).toJS();
         }
         case EDIT_FIELD: {
             const { formId, fieldGroupId, fieldConfig } = action.payload;

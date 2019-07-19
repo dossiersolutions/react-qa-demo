@@ -6,10 +6,18 @@ import PropTypes from 'prop-types';
 class AddFormComponent extends React.Component {
 
     render() {
+        const {
+            addNewForm
+        } = this.props;
         return (
             <React.Fragment>
-            <button type="button" className="btn btn-info"
-                    onClick={ this.props.addNewForm }>Craft new form</button>
+            <button
+                type="button"
+                className="btn btn-info"
+                onClick={ addNewForm }
+            >
+                <span role="img" aria-label="craft-new-form">&#x2795;</span> Craft new form
+            </button>
             <br/>
             <br/>
             </React.Fragment>

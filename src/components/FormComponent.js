@@ -28,12 +28,20 @@ class FormComponent extends React.Component {
         const {
             formConfig,
             formConfig: {
-                id: formId
+                id: formId,
+                collapsed
             }
-        }= this.props;
+        } = this.props;
         return (
-            <div key={`form-wrapper-${formId}`} className={ formConfig.collapsed ? "collapse" : "bg-light p-1 border border-light mb-5" } >
-                <FormActionsComponent formConfig={ formConfig } getFormConfigJson={ this.getFormConfigJson }/>
+            <div
+                key={`form-wrapper-${formId}`}
+                className={ collapsed
+                    ? "collapse"
+                    : "bg-light p-1 border border-light mb-5" }
+            >
+                <FormActionsComponent
+                    formConfig={ formConfig }
+                    getFormConfigJson={ this.getFormConfigJson }/>
                 <form key={`form-${formId}`}>
                     {
                         Object.values(formConfig.fieldsets).map(function(fieldGroupConfig) {

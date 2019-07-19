@@ -17,15 +17,22 @@ class FormListItemComponent extends React.Component {
                 collapsed
             }
         } = this.props;
-        console.log(formConfig);
         return (
             <React.Fragment>
             <div className={"list-group-item list-group-item-action"}>
                 <strong>{ name }</strong>
-                <button type="button" className="btn btn-sm btn-danger pull-right" onClick={ deleteForm.bind(this, formId) }>
+                <button
+                    type="button"
+                    className="btn btn-sm btn-danger pull-right"
+                    onClick={ deleteForm.bind(this, formId) }
+                >
                     <span role="img" aria-label="delete">&times;</span>
                 </button>
-                <button type="button" className="btn btn-sm pull-right" onClick={ toggleFormVisibility.bind(this, formId) }>
+                <button
+                    type="button"
+                    className="btn btn-sm pull-right"
+                    onClick={ toggleFormVisibility.bind(this, formId) }
+                >
                     { collapsed
                         ? <span role="img" aria-label="expand">&#x25BC;</span>
                         : <span role="img" aria-label="collapse">&#x25B2;</span>}
