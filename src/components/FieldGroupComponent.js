@@ -4,6 +4,7 @@ import FieldGroupRenderer from './FieldGroupRenderer';
 import { deleteFieldGroup } from "../redux/actions";
 import { addNewField } from "../redux/actions/fieldActions";
 import PropTypes from 'prop-types';
+import {bindActionCreators} from "redux";
 
 /**
  * Fields collection - grouped in fieldset
@@ -38,9 +39,11 @@ FieldGroupComponent.propTypes = {
     deleteFieldGroup: PropTypes.func
 };
 
-const mapDispatchToProps = dispatch => ({
-    saveFieldConfig: (formId, fieldGroupId, fieldConfig) => dispatch(addNewField(formId, fieldGroupId, fieldConfig)),
-    deleteFieldGroup: (formId, fieldGroupId) => dispatch(deleteFieldGroup(formId, fieldGroupId))
-});
+const mapDispatchToProps = dispatch => {
+    return bindActionCreators({
+        saveFieldConfig: addNewField,
+        deleteFieldGroup
+    }, dispatch);
+};
 
 export default connect(null, mapDispatchToProps)(FieldGroupComponent)

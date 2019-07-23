@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import FormComponent from "./FormComponent";
 import { deleteForm, toggleFormVisibility } from "../redux/actions";
 import PropTypes from "prop-types";
+import {bindActionCreators} from "redux/es/redux";
 
 class FormListItemComponent extends React.Component {
 
@@ -53,11 +54,12 @@ FormListItemComponent.propTypes = {
     name: PropTypes.string
 };
 
-const mapDispatchToProps = dispatch => ({
-    toggleFormVisibility: (id) => dispatch(toggleFormVisibility(id)),
-
-    deleteForm: (id) => dispatch(deleteForm(id))
-});
+const mapDispatchToProps = dispatch => {
+    return bindActionCreators({
+        toggleFormVisibility,
+        deleteForm
+    }, dispatch);
+};
 
 export default connect(state => state, mapDispatchToProps)(FormListItemComponent)
 

@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { addNewForm } from "../redux/actions/formActions";
 import PropTypes from 'prop-types';
+import {bindActionCreators} from "redux";
 
 class AddFormComponent extends React.Component {
 
@@ -30,9 +31,11 @@ AddFormComponent.propTypes = {
     addNewForm: PropTypes.func
 };
 
-const mapDispatchToProps = dispatch => ({
-    addNewForm: () => dispatch(addNewForm())
-});
+const mapDispatchToProps = dispatch => {
+    return bindActionCreators({
+        addNewForm
+    }, dispatch);
+};
 
 export default connect(null, mapDispatchToProps)(AddFormComponent)
 

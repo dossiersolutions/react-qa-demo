@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import FillFormWindow from "./FillFormWindow";
 import { addNewFieldGroup } from "../redux/actions";
 import PropTypes from "prop-types";
+import {bindActionCreators} from "redux";
 
 class FormActionsComponent extends React.Component {
 
@@ -51,8 +52,10 @@ FormActionsComponent.propTypes = {
     getFormConfigJson: PropTypes.func
 };
 
-const mapDispatchToProps = dispatch => ({
-    addNewFieldGroup: (formId) => dispatch(addNewFieldGroup(formId))
-});
+const mapDispatchToProps = dispatch => {
+    return bindActionCreators({
+        addNewFieldGroup
+    }, dispatch);
+};
 
 export default connect(null, mapDispatchToProps)(FormActionsComponent)

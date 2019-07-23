@@ -4,6 +4,7 @@ import FieldConfigWindow from "./FieldConfigWindow";
 import { Map } from "immutable";
 import { deleteField, editField } from "../../redux/actions/fieldActions";
 import PropTypes from "prop-types";
+import { bindActionCreators} from "redux";
 
 class FieldActionsComponent extends React.Component {
 
@@ -49,9 +50,11 @@ FieldActionsComponent.propTypes = {
     deleteField: PropTypes.func
 };
 
-const mapDispatchToProps = dispatch => ({
-    deleteField: (formId, fieldGroupId, fieldId) => dispatch(deleteField(formId, fieldGroupId, fieldId)),
-    editField: (formId, fieldGroupId, fieldConfig) => dispatch(editField(formId, fieldGroupId, fieldConfig))
-});
+const mapDispatchToProps = (dispatch) => {
+    return bindActionCreators({
+        deleteField, editField
+        }, dispatch
+    );
+};
 
 export default connect(null, mapDispatchToProps)(FieldActionsComponent)
